@@ -1,0 +1,16 @@
+MIC-BETA ANDROID — PHONE-ONLY APK BUILD
+
+তোমার PC/laptop লাগবে না। GitHub-এর cloud computer দিয়ে APK build হবে।
+
+১) Chrome-এ https://github.com খুলে account-এ sign in করো।
+২) + > New repository চাপো। নাম দাও MIC-BETA-ANDROID, Public বা Private যেকোনোটি; Create repository।
+৩) এই ZIP extract করে ভেতরের MIC-BETA-ANDROID ফোল্ডারের সব ফাইল GitHub repo-তে upload করো। .github ফোল্ডারটিও অবশ্যই upload করতে হবে।
+   GitHub mobile web-এ Add file > Upload files ব্যবহার করো। ZIP-টি সরাসরি upload কোরো না; আগে extract করে সব project file upload করতে হবে।
+৪) Upload/commit শেষ হলে repo-র Actions tab খোলো। “Build MIC-BETA APK” workflow বেছে নাও।
+৫) “Run workflow” > সবুজ Run workflow চাপো। Build শেষ হওয়া পর্যন্ত অপেক্ষা করো।
+৬) সফল হলে workflow run-এর পেজের নিচে Artifacts থেকে MIC-BETA-ANDROID-debug-apk download করো। ZIP extract করলে app-debug.apk পাবে।
+৭) APK install করার সময় Android-এর “Install unknown apps” permission চাইলে শুধু GitHub থেকে নামানো ফাইলের জন্য Files/Chrome-কে অনুমতি দাও।
+
+সমস্যা হলে Actions-এর লাল failed run খুলে error-এর screenshot পাঠাও।
+
+গুরুত্বপূর্ণ: এই starter app-এ Audio Library ও local playback effects আছে। এগুলো WhatsApp/DualSpace-এর outgoing microphone-এ সরাসরি অডিও পাঠায় না। সাধারণ non-root Android app অন্য app-এর mic input replace করতে পারে না।
