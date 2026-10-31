@@ -2,16 +2,18 @@
 name: Build MIC-BETA APK
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   build:
+    name: Build MIC-BETA Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -27,20 +29,34 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: 'platform-tools,platforms;android-35,build-tools;35.0.0'
           accept-android-sdk-licenses: true
+
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          yes | sdkmanager --licenses
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Build APK
-        run: gradle --no-daemon assembleDebug
+      - name: Check project files
+        run: |
+          echo "Checking Android project..."
+          ls -la
+          test -d app
+          test -f settings.gradle || test -f settings.gradle.kts
+          test -f build.gradle || test -f build.gradle.kts
+
+      - name: Build Debug APK
+        run: |
+          gradle --no-daemon assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: MIC-BETA-ANDROID
+          name: MIC-BETA-ANDROID-APK
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          retention-days: 7
